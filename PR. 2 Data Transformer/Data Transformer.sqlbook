@@ -1,0 +1,233 @@
+-- SQLBook: Markup
+## PR.2 Data Transformer
+-- SQLBook: Markup
+Create Database For This Project
+-- SQLBook: Code
+-- Active: 1787030903737@@127.0.0.1@3306@data_transformer
+CREATE DATABASE Data_transformer ;
+
+USE Data_transformer;
+-- SQLBook: Markup
+#### Customer Table
+-- SQLBook: Code
+-- Active: 1787030903737@@127.0.0.1@3306@data_transformer
+CREATE TABLE Customers(
+    Customer_id INT PRIMARY KEY,
+    First_name VARCHAR(50),
+    Last_name VARCHAR(50),
+    Email VARCHAR(50),
+    Registration_date DATE
+);
+
+-- SQLBook: Code
+INSERT INTO customers VALUES
+    (102 , 'Harshil' , 'Prajapati' , 'hatshil26@gmail.com' , '2026/01/05'),
+    (103 , 'Raj' , 'Jivani' , 'raj18@gmail.com' , '2026-01-07'),
+    (104 , 'Meet' , 'kachariya' , 'meet34@gmail.com', '2026-01-09'),
+    (105 , 'Paras' , 'Solanki' , 'paras12@gmail.com' , '2026-01-11'),
+    (106 , 'Dvija' , 'shah' , 'dvija6@gmail.com' , '2026-01-13'),
+    (107 , 'Jiya' , 'Sharma' , 'jiya7@gmail.com' , '2026-01-16'),
+    (108 , 'Pragati' , 'Trivadi' , 'pragti@gmail.com' , '2026-01-19'),
+    (109 , 'Mitali' , 'Jariwala' , 'mitali@gmail.com' , '2026-01-22'),
+    (110 , 'Priya' ,  'Mehta' , 'priya33@gmail.com' , '2026-01-25'),
+    (111 , 'Sakshi' , 'Chorasiya' , 'sakshi17@gmail.com' , '2026-01-27'),
+    (112 , 'Smit' , 'Mehta' , 'smit24@gmail.com' , '2026-01-30'),
+    (113 , 'Liza' , 'joshi' , 'liza@gmail.com' , '2026-02-02'),
+    (114 , 'Kirti' , 'Cauhan' , 'kirti78@gmail.com' , '2026-02-04'),
+    (115 , 'Krupa' , 'Dabhi' , 'krupa31@gmail.com' , '2026-02-07');
+-- SQLBook: Markup
+### Order Table
+-- SQLBook: Code
+CREATE TABLE `Order` (
+    Order_id INT PRIMARY KEY,
+    Customer_id INT,
+    Order_date DATE,
+    Total_amount DECIMAL(10,2), 
+    FOREIGN KEY (Customer_id) REFERENCES Customers(Customer_id)
+);
+-- SQLBook: Code
+
+INSERT INTO `Order` (Order_id, Customer_id, Order_date, Total_amount) VALUES
+(501, 102, '2026-01-06', 150.50),
+(502, 103, '2026-01-08', 45.00),
+(503, 104, '2026-01-10', 899.99),
+(504, 105, '2026-01-12', 25.75),
+(505, 106, '2026-01-14', 120.00),
+(506, 107, '2026-01-17', 350.40),
+(507, 108, '2026-01-20', 75.25),
+(508, 109, '2026-01-23', 510.00),
+(509, 110, '2026-01-26', 15.99),
+(510, 111, '2026-01-28', 210.50),
+(511, 112, '2026-02-01', 99.00),
+(512, 113, '2026-02-03', 425.80),
+(513, 114, '2026-02-05', 65.00),
+(514, 115, '2026-02-08', 115.45),
+(515, 102, '2026-02-10', 230.00);
+
+-- SQLBook: Markup
+###  Employees Table
+-- SQLBook: Code
+CREATE TABLE Employees(
+    Employee_id INT PRIMARY KEY,
+    First_name VARCHAR(50),
+    Last_name VARCHAR(50),
+    Department VARCHAR(50), 
+    Hire_date DATE,
+    Salary DECIMAL
+);
+-- SQLBook: Code
+INSERT INTO Employees (Employee_id, First_name, Last_name, Department, Hire_date, Salary) VALUES
+(1001, 'Aarav', 'Sharma', 'IT', '2023-03-15', 75000),
+(1002, 'Diya', 'Patel', 'HR', '2024-01-10', 62000),
+(1003, 'Kabir', 'Mehta', 'Finance', '2022-11-01', 88000),
+(1004, 'Ananya', 'Joshi', 'Marketing', '2025-05-18', 55000),
+(1005, 'Vivaan', 'Shah', 'IT', '2023-08-22', 78000),
+(1006, 'Isha', 'Trivedi', 'Operations', '2024-06-01', 60000),
+(1007, 'Arjun', 'Verma', 'Finance', '2021-04-12', 92000),
+(1008, 'Myra', 'Chauhan', 'Marketing', '2025-02-28', 58000),
+(1009, 'Rohan', 'Surti', 'IT', '2024-09-15', 71000),
+(1010, 'Sanya', 'Giri', 'HR', '2023-11-20', 64000),
+(1011, 'Aaryan', 'Dabhi', 'Operations', '2025-01-05', 61000),
+(1012, 'Kriti', 'Solanki', 'Finance', '2022-07-19', 85000),
+(1013, 'Dev', 'Kachariya', 'IT', '2024-03-30', 73000),
+(1014, 'Riya', 'Jivani', 'Marketing', '2023-05-14', 56000),
+(1015, 'Veer', 'Prajapati', 'Operations', '2025-08-11', 59000);
+
+-- SQLBook: Markup
+### Q - 1 INNER JOIN - Retrive all order and customer details Where Oredr Exist.
+-- SQLBook: Code
+SELECT o.Order_id, o.Order_date, o.Total_amount, c.Customer_id, c.First_name, c.Last_name
+FROM `Order` o
+INNER JOIN Customers c ON o.Customer_id = c.Customer_id;
+
+-- SQLBook: Markup
+### Q - 2 LEFT JOIN - Retrive all customers and Thire correcpanding Orders (If Any).            
+
+-- SQLBook: Code
+SELECT c.Customer_id, c.First_name, c.Last_name, o.Order_id, o.Order_date, o.Total_amount
+FROM Customers c
+LEFT JOIN `Order` o ON c.Customer_id = o.Customer_id;
+
+-- SQLBook: Markup
+### Q - 3 RIGHT JOIN - Retrive all Order and thire corresponding customers (if any).
+-- SQLBook: Code
+SELECT o.Order_id, o.Order_date, o.Total_amount, c.Customer_id, c.First_name, c.Last_name
+FROM `Order` o
+RIGHT JOIN Customers c ON o.Customer_id = c.Customer_id;
+  
+-- SQLBook: Markup
+### Q - 4 FULL OUTER JOIN - Retrive all customers and all orders, regardless of matching.
+-- SQLBook: Code
+SELECT c.Customer_id, c.First_name, c.Last_name, o.Order_id, o.Order_date, o.Total_amount
+FROM Customers c
+LEFT JOIN `Order` o ON c.Customer_id = o.Customer_id
+
+UNION
+
+SELECT c.Customer_id, c.First_name, c.Last_name, o.Order_id, o.Order_date, o.Total_amount
+FROM Customers c
+RIGHT JOIN `Order` o ON c.Customer_id = o.Customer_id;
+
+-- SQLBook: Markup
+### Q - 5 Subquery to find customers who have placed orders Worth more than Average Amount
+
+-- SQLBook: Code
+SELECT * FROM Customers
+WHERE Customer_id IN (
+    SELECT Customer_id FROM `Order` 
+    WHERE Total_amount > (SELECT AVG(Total_amount) FROM `Order`)
+);
+-- SQLBook: Markup
+### Q - 6  Subquery to find Employees with salaries above the average Salary.
+-- SQLBook: Code
+SELECT Employee_id , First_name , Last_name , Department , Total_salary
+FROM Employees
+WHERE Total_salary >= AVG(Total_salary)
+FROM Employees;
+-- SQLBook: Markup
+### Q - 7 Extract the year and Month from the Order Date
+-- SQLBook: Code
+SELECT 
+    YEAR(Order_date) AS Order_Year,
+    MONTH(Order_date) AS Order_Month
+FROM `Order`;
+-- SQLBook: Markup
+### Q - 8 Calculate the differebce in days between two date
+-- SQLBook: Code
+SELECT 
+    Order_date,
+    DATEDIFF(CURDATE(), Order_date) AS Days_deffrience
+FROM `Order`;
+-- SQLBook: Markup
+###  Q - 9 Format the Orderdate to a more readable format (DD-MM-YYYY)
+-- SQLBook: Code
+SELECT 
+    DATE_FORMAT(Order_date, '%d-%m-%Y') AS Formated_date
+FROM `Order`;
+-- SQLBook: Markup
+### Q - 10 Convert FirstName and LastName to form a fullname
+-- SQLBook: Code
+SELECT 
+    TRIM(First_name) AS CleanedFirst,
+    TRIM(Last_name) AS CleanedLast,
+    CONCAT(TRIM(First_name), ' ', TRIM(Last_name)) AS Full_name
+FROM Employees;
+-- SQLBook: Markup
+### Q - 11 Replace Part of a string
+-- SQLBook: Code
+
+-- SQLBook: Markup
+### Q - 12 Convert Firstname To Uppercase and Lastname to lowercase 
+-- SQLBook: Code
+
+-- SQLBook: Markup
+### Q - 13 Tirm extra spaces from the Email field
+-- SQLBook: Code
+
+-- SQLBook: Markup
+### Q - 14 Calculate the running total of Total Amount For each order
+-- SQLBook: Code
+SELECT 
+    Order_id, 
+    Total_amount,
+    SUM(Total_amount) OVER(ORDER BY Order_date, Order_id) AS Running_total
+FROM `Order`;
+-- SQLBook: Markup
+### Q - 15 Rank order based on Total Amount using the RANK() Function 
+-- SQLBook: Code
+SELECT 
+    Order_id, 
+    Total_amount,
+    RANK() OVER(ORDER BY Total_amount DESC) AS OrderRank
+FROM `Order`;
+-- SQLBook: Markup
+### Q - 16 Assign a discount based on Total Amount in Order
+-- SQLBook: Code
+SELECT 
+    Order_id,
+    Customer_id,
+    Order_date,
+    Total_amount,
+    CASE 
+        WHEN Total_amount >= 900 THEN '15% Discount'
+        WHEN Total_amount >= 500  THEN '10% Discount'
+        WHEN Total_amount >= 100  THEN '5% Discount'
+        ELSE 'No Discount'
+    END AS Discount_Persentage
+FROM `Order`;
+-- SQLBook: Markup
+### Q - 17 Categorize employees salaries as high . medium or Low.
+-- SQLBook: Code
+SELECT Employee_id ,
+    First_name ,
+    Last_name ,
+    Salary,           
+    CASE 
+        WHEN Salary <= 50000 THEN 'Low'
+        WHEN Salary <= 75000 THEN 'Medium'
+        ELSE 'High'
+    END AS Salary_Level
+FROM employees;
+-- SQLBook: Code
+
+-- SQLBook: Markup
